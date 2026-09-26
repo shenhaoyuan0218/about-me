@@ -1,114 +1,126 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人简历 | UNNC 计算机科学</title>
+    <title>Haoyuan Shen | UNNC Computer Science</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Microsoft Yahei", sans-serif;
+            font-family: "Times New Roman", serif;
         }
         body {
-            background-color: #f4f7fa;
+            background-color: #f0f5fb;
             color: #222;
             line-height: 1.6;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 60px;
         }
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            background: white;
-            padding: 40px;
-            box-shadow: 0 2px 12px #00000018;
+        .sidebar img {
+            width: 220px;
+            border-radius: 4px;
         }
-        .header {
-            border-bottom: 2px solid #2c3e50;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+        .contact {
+            margin-top:24px;
         }
-        h1 {
-            font-size: 32px;
-            color: #2c3e50;
+        .contact h3 {
+            font-size:18px;
+            font-weight:normal;
+            margin-bottom:10px;
         }
-        .info {
-            margin-top: 8px;
-            color:#555;
+        .contact p {
+            margin: 8px 0;
+            font-size:16px;
         }
-        h2 {
-            margin:24px 0 12px;
-            color:#2c3e50;
-            border-left:4px solid #3498db;
-            padding-left:10px;
+        .contact a {
+            color:#3068a8;
+            text-decoration: none;
         }
-        ul {
-            padding-left:24px;
+        .contact a:hover {
+            text-decoration: underline;
         }
-        li {
-            margin-bottom:8px;
+        .main .label-about {
+            color:#4070a0;
+            letter-spacing:1px;
         }
-        .footer {
-            margin-top:40px;
-            text-align:center;
-            color:#777;
-            font-size:14px;
+        .main h1 {
+            font-size: 56px;
+            font-weight:normal;
+            margin-bottom:12px;
         }
-        a {
-            color:#3498db;
-            text-decoration:none;
+        .subtitle {
+            color:#444;
+            font-size:18px;
+            margin-bottom:24px;
         }
-        a:hover {
-            text-decoration:underline;
+        hr {
+            border:0;
+            border-bottom:1px solid #bccde0;
+            margin:30px 0;
+        }
+        .section {
+            margin:32px 0;
+        }
+        .section h2 {
+            font-size:32px;
+            font-weight:normal;
+            margin-bottom:16px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>沈皓源</h1>
-            <div class="info">
-                宁波诺丁汉大学 计算机科学与技术（CSAI）本科 | 强化学习 / 具身智能 / HPC 方向<br>
-                邮箱：xxx@xxx.com &nbsp;&nbsp; GitHub：<a href="https://github.com/你的github用户名">github.com/你的github用户名</a>
-            </div>
+    <div class="sidebar">
+        <img src="photo.jpg" alt="Haoyuan Shen">
+        <div class="contact">
+            <h3>Contact</h3>
+            <p><a href="mailto:scyhs8@nottingham.edu.cn">scyhs8@nottingham.edu.cn</a></p>
+            <p>
+                <a href="https://github.com/shenhaoyuan0218">GitHub</a>
+            </p>
+        </div>
+    </div>
+    <div class="main">
+        <div class="about">
+            <p class="label-about">ABOUT ME</p>
+            <h1>Haoyuan Shen</h1>
+            <p class="subtitle">Undergraduate student · Computer Science<br>University of Nottingham Ningbo China</p>
+            <hr>
         </div>
 
-        <section>
-            <h2>教育背景</h2>
-            <ul>
-                <li><strong>宁波诺丁汉大学 University of Nottingham Ningbo China</strong> 本科 计算机科学与技术 CS
-                <br>预计毕业：2029年 | GPA：目标3.9+</li>
-            </ul>
-        </section>
+        <div class="section">
+            <h2>Biography</h2>
+            <p>I am a first-year undergraduate student majoring in Computer Science at the University of Nottingham Ningbo China. My research interests cover reinforcement learning, embodied intelligence, high-performance computing, numerical optimization and AI for quantitative finance. I am actively seeking research assistant opportunities to build practical research experience in AI and scientific computing.</p>
+        </div>
 
-        <section>
-            <h2>专业技能</h2>
-            <ul>
-                <li>编程语言：Python，基础Scheme（CS61a）</li>
-                <li>数学基础：微积分、线性代数，数值优化基础</li>
-                <li>未来方向：强化学习RL、具身智能、高性能计算HPC、量化金融AI</li>
-                <li>工具：Microsoft Office，Power Query，Python爬虫，Git基础</li>
-            </ul>
-        </section>
+        <div class="section">
+            <h2>Education</h2>
+            <p><strong>University of Nottingham Ningbo China</strong></p>
+            <p>Computer Science undergraduate student, Sep. 2026 - Present</p>
+        </div>
 
-        <section>
-            <h2>校园经历</h2>
-            <ul>
-                <li>共青团宁波诺丁汉大学委员会组织部：文书归档、物资财务管理、场地协调、跨部门沟通</li>
-            </ul>
-        </section>
+        <div class="section">
+            <h2>Skills</h2>
+            <p><strong>Programming:</strong> Python, basic web crawler scripting</p>
+            <p><strong>Mathematics:</strong> Calculus, linear algebra, numerical optimization fundamentals</p>
+            <p><strong>Office & Administration:</strong> Microsoft Office, Teams, document archiving, project coordination, data sorting</p>
+        </div>
 
-        <section>
-            <h2>科研 & 项目意向</h2>
-            <ul>
-                <li>目标：RL/具身智能/HPC方向RA，长期规划：CMU硕士AI，MIT博士量化金融AI</li>
-            </ul>
-        </section>
+        <div class="section">
+            <h2>Positions</h2>
+            <p><strong>Administrative Department, Student Union</strong></p>
+            <p>Responsible for document archiving, financial & asset management, venue application and cross-department coordination.</p>
+        </div>
 
-        <div class="footer">
-            更新时间：2026.09
+        <div class="section">
+            <h2>Beyond academics</h2>
+            <p>I also join volunteer activities hosted by university associations. In my spare time, I practice Python programming, web automation and numerical computation, and maintain regular fitness training.</p>
         </div>
     </div>
 </body>
 </html>
-gb
