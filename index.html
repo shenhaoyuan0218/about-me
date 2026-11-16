@@ -1,126 +1,775 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haoyuan Shen | UNNC Computer Science</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Times New Roman", serif;
-        }
-        body {
-            background-color: #f0f5fb;
-            color: #222;
-            line-height: 1.6;
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 0 40px;
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 60px;
-        }
-        .sidebar img {
-            width: 220px;
-            border-radius: 4px;
-        }
-        .contact {
-            margin-top:24px;
-        }
-        .contact h3 {
-            font-size:18px;
-            font-weight:normal;
-            margin-bottom:10px;
-        }
-        .contact p {
-            margin: 8px 0;
-            font-size:16px;
-        }
-        .contact a {
-            color:#3068a8;
-            text-decoration: none;
-        }
-        .contact a:hover {
-            text-decoration: underline;
-        }
-        .main .label-about {
-            color:#4070a0;
-            letter-spacing:1px;
-        }
-        .main h1 {
-            font-size: 56px;
-            font-weight:normal;
-            margin-bottom:12px;
-        }
-        .subtitle {
-            color:#444;
-            font-size:18px;
-            margin-bottom:24px;
-        }
-        hr {
-            border:0;
-            border-bottom:1px solid #bccde0;
-            margin:30px 0;
-        }
-        .section {
-            margin:32px 0;
-        }
-        .section h2 {
-            font-size:32px;
-            font-weight:normal;
-            margin-bottom:16px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Haoyuan Shen · Academic Homepage</title>
+  <meta name="description" content="Haoyuan Shen is a Year 1 Computer Science student at UNNC, focused on AI infrastructure and high-performance computing, systematically learning CUDA while training in algorithms." />
+  <meta name="author" content="Haoyuan Shen" />
+  <meta property="og:title" content="Haoyuan Shen · Academic Homepage" />
+  <meta property="og:description" content="UNNC CS. AI infrastructure and high-performance computing. Learning CUDA, training in algorithms." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%23060a0e'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='IBM%20Plex%20Mono,monospace' font-size='13' font-weight='500' fill='%233ee0c0'%3EHS%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #06090d;
+      --panel: rgba(10, 16, 22, 0.72);
+      --line: rgba(62, 224, 192, 0.16);
+      --text: #e9f3f4;
+      --muted: #8ea0a8;
+      --dim: #5c6e76;
+      --accent: #3ee0c0;
+      --hot: #ff2bd6;
+      --blue: #2f8bff;
+      --accent-2: #8a5cff;
+      --gold: #e2c175;
+      --grad: linear-gradient(90deg, #00f0ff, var(--blue) 35%, #8a5cff 65%, var(--hot));
+      --sans: "Space Grotesk", "IBM Plex Sans", "Source Han Sans SC", sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --pad: clamp(22px, 5vw, 72px);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: var(--bg); color: var(--text); }
+    body { font-family: var(--sans); overflow: hidden; }
+    canvas#bg { position: fixed; inset: 0; z-index: 0; display: block; }
+    .vignette {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 50% 110%, rgba(62,224,192,0.08), transparent 45%),
+        linear-gradient(to bottom, rgba(6,9,13,0.2), transparent 18%, transparent 82%, rgba(6,9,13,0.55));
+    }
+    .scan {
+      position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: 0.06;
+      background: repeating-linear-gradient(to bottom, #fff 0 1px, transparent 1px 3px);
+      mix-blend-mode: overlay;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    a:focus-visible, button:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
+    code { font-family: var(--mono); font-size: 0.92em; color: var(--accent); }
+
+    header.hud {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+      display: flex; align-items: center; gap: 20px;
+      padding: 0 var(--pad); height: 64px;
+      background: linear-gradient(to bottom, rgba(6,9,13,0.86), rgba(6,9,13,0.2) 80%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 0;
+    }
+    header.hud::after {
+      content: "";
+      position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 0%, #00f0ff 14%, var(--blue) 38%, #8a5cff 62%, var(--hot) 86%, transparent 100%);
+      opacity: 0.55;
+    }
+    .mark {
+      font-family: var(--mono); font-size: 13px; font-weight: 500;
+      letter-spacing: 0.06em; text-decoration: none;
+      background: var(--grad);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+    .mark span { color: var(--dim); font-weight: 400; }
+    .mark:hover { text-decoration: none; color: var(--text); }
+    .hud-status {
+      display: none; font-family: var(--mono); font-size: 11px; color: var(--dim);
+      letter-spacing: 0.08em;
+    }
+    @media (min-width: 900px) {
+      .hud-status { display: block; margin-left: 8px; }
+    }
+    .hud-status i { color: var(--accent); font-style: normal; }
+    nav.main {
+      margin-left: auto; display: flex; gap: 18px;
+      font-family: var(--mono); font-size: 12px;
+    }
+    nav.main a { color: var(--dim); text-decoration: none; }
+    nav.main a:hover, nav.main a.on { color: var(--text); }
+    nav.main a.on { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    .rail {
+      position: fixed; right: 18px; top: 50%; transform: translateY(-50%);
+      z-index: 30; display: flex; flex-direction: column; gap: 14px;
+    }
+    .rail button {
+      width: 9px; height: 9px; border-radius: 50%;
+      border: 1px solid rgba(62,224,192,0.4);
+      background: transparent; padding: 0; cursor: pointer;
+    }
+    .rail button.on {
+      background: var(--grad);
+      border-color: transparent;
+      box-shadow: 0 0 8px rgba(47,139,255,0.6);
+    }
+    .rail button:hover { background: rgba(62,224,192,0.4); }
+
+    .scroller {
+      position: relative; z-index: 5;
+      height: 100%; overflow-y: auto; overflow-x: hidden;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .panel {
+      min-height: 100svh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex; align-items: center;
+      padding: 88px var(--pad) 72px;
+      position: relative;
+    }
+    #intro.panel { align-items: flex-start; padding-top: clamp(110px, 16vh, 170px); }
+    .panel-inner { width: min(980px, 100%); margin: 0 auto; }
+
+    /* motion: staggered reveal per panel */
+    .panel-inner > * {
+      opacity: 0; transform: translateY(26px); filter: blur(4px);
+      transition: opacity .7s ease, transform .8s cubic-bezier(.2,.8,.2,1), filter .7s ease;
+    }
+    .panel.in .panel-inner > * { opacity: 1; transform: none; filter: none; }
+    .panel.in .panel-inner > *:nth-child(1) { transition-delay: .05s; }
+    .panel.in .panel-inner > *:nth-child(2) { transition-delay: .14s; }
+    .panel.in .panel-inner > *:nth-child(3) { transition-delay: .23s; }
+    .panel.in .panel-inner > *:nth-child(4) { transition-delay: .32s; }
+    .panel.in .panel-inner > *:nth-child(5) { transition-delay: .41s; }
+    .panel.in .panel-inner > *:nth-child(n+6) { transition-delay: .5s; }
+    .panel.in .idx::after { animation: draw .9s .2s cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes draw { from { width: 0; } }
+
+    /* name: occasional subtle glitch */
+    h1.name .gn { position: relative; display: inline-block; }
+    h1.name .gn::before, h1.name .gn::after {
+      content: attr(data-t); position: absolute; inset: 0; pointer-events: none; opacity: 0;
+    }
+    h1.name .gn::before { color: #00f0ff; animation: glitchA 7s infinite steps(1); }
+    h1.name .gn::after  { color: #ff2bd6; animation: glitchB 7s infinite steps(1); }
+    @keyframes glitchA {
+      0%, 91%, 100% { opacity: 0; transform: none; clip-path: inset(0 0 0 0); }
+      92% { opacity: .7; transform: translate(-3px, 0); clip-path: inset(18% 0 58% 0); }
+      94% { opacity: .6; transform: translate(2px, 0);  clip-path: inset(62% 0 12% 0); }
+      96% { opacity: 0; }
+    }
+    @keyframes glitchB {
+      0%, 92%, 100% { opacity: 0; transform: none; clip-path: inset(0 0 0 0); }
+      93% { opacity: .6; transform: translate(3px, 0);  clip-path: inset(40% 0 35% 0); }
+      95% { opacity: .5; transform: translate(-2px, 0); clip-path: inset(8% 0 76% 0); }
+      97% { opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .panel-inner > * { opacity: 1; transform: none; filter: none; transition: none; }
+      h1.name .gn::before, h1.name .gn::after { animation: none; }
+    }
+
+
+    .idx {
+      font-family: var(--mono); font-size: 12px; color: var(--accent);
+      letter-spacing: 0.16em; text-transform: uppercase;
+      width: fit-content;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .idx::after {
+      content: ""; height: 1px; width: 72px;
+      background: linear-gradient(to right, #00f0ff, var(--blue), var(--hot), transparent);
+    }
+
+    h1.name {
+      font-size: clamp(48px, 8.4vw, 104px);
+      font-weight: 500; letter-spacing: -0.045em; line-height: 0.92;
+    }
+    h1.name .gn { text-shadow: 0 0 40px rgba(62,224,192,0.08); }
+    h1.name em {
+      font-style: normal; font-weight: 400; color: var(--muted);
+      font-size: 0.28em; letter-spacing: 0.18em;
+      display: inline-block; margin-left: 14px; transform: translateY(-0.55em);
+    }
+    .role {
+      margin-top: 22px; font-family: var(--mono); font-size: 13px; color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .lede {
+      margin-top: 28px; max-width: 34em;
+      font-size: clamp(18px, 2.1vw, 22px); line-height: 1.55; color: #d5e2e6;
+    }
+    .lede strong { font-weight: 500; color: #fff; }
+    .links { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 10px 22px; font-family: var(--mono); font-size: 13px; }
+    .links a { color: var(--text); text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 2px;
+      border-image: linear-gradient(90deg, var(--accent), var(--hot)) 1;
+    }
+    .links a:hover { color: var(--accent); }
+    .scroll-hint {
+      position: absolute; left: var(--pad); bottom: 28px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+      color: var(--dim); text-transform: uppercase;
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 50% { opacity: 0.4; } }
+
+    h2 {
+      font-size: clamp(28px, 5vw, 48px); font-weight: 500;
+      letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 22px;
+    }
+    .prose { max-width: 38em; font-size: 17px; line-height: 1.7; color: #c5d3d8; }
+    .prose p + p { margin-top: 1em; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .tile {
+      position: relative; overflow: hidden;
+      padding: 24px 22px 28px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    .tile::before {
+      content: ""; position: absolute; inset: 0 auto 0 0; width: 2px;
+      background: linear-gradient(to bottom, #00f0ff, var(--blue), var(--hot));
+      box-shadow: 0 0 10px rgba(47,139,255,0.45);
+    }
+    .tile .n { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; }
+    .tile h3 { font-size: 22px; font-weight: 500; margin: 10px 0 10px; letter-spacing: -0.02em; }
+    .tile p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+
+    .track {
+      background: var(--panel); border: 1px solid var(--line);
+      padding: 8px 28px; backdrop-filter: blur(12px);
+    }
+    .steps { list-style: none; }
+    .steps li {
+      display: grid; grid-template-columns: 120px 1fr; gap: 20px;
+      padding: 22px 0; border-top: 1px solid rgba(62,224,192,0.1);
+      font-size: 16px;
+    }
+    .steps li:first-child { border-top: 0; }
+    .steps .when { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.1em; padding-top: 5px; text-transform: uppercase; }
+    .steps .later .when { color: var(--dim); }
+    .steps strong { font-weight: 500; color: var(--text); }
+    .steps span { color: var(--muted); }
+
+    .work { list-style: none; }
+    .work li {
+      display: grid; grid-template-columns: 1fr auto; gap: 12px 24px;
+      padding: 18px 0; border-top: 1px solid rgba(62,224,192,0.12);
+      align-items: baseline;
+    }
+    .work li:first-child { border-top: 0; }
+    .work h3 { font-size: 20px; font-weight: 500; }
+    .work h3 a { color: var(--text); text-decoration: none; }
+    .work h3 a:hover { color: var(--accent); }
+    .work .tag { font-family: var(--mono); font-size: 11px; color: var(--dim); letter-spacing: 0.06em; }
+    .work p { grid-column: 1 / -1; color: var(--muted); font-size: 14.5px; margin-top: -6px; }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .news, .misc { list-style: none; }
+    .news li, .edu {
+      display: grid; grid-template-columns: 92px 1fr; gap: 14px;
+      padding: 12px 0; border-top: 1px solid rgba(62,224,192,0.1); font-size: 15px;
+    }
+    .news li:first-child, .edu { border-top: 0; }
+    time, .when-col { font-family: var(--mono); font-size: 12px; color: var(--dim); padding-top: 3px; }
+    .edu h3 { font-size: 20px; font-weight: 500; }
+    .edu .org { color: var(--muted); font-size: 14px; margin: 4px 0 8px; }
+    .edu p { color: var(--muted); font-size: 14.5px; }
+    .misc li { margin: 8px 0 8px 1.1em; color: var(--muted); font-size: 15px; }
+
+    .contact-mail {
+      font-size: clamp(22px, 3.4vw, 36px); font-weight: 500; letter-spacing: -0.03em;
+      color: var(--text);
+    }
+    .contact-mail:hover {
+      background: var(--grad);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      text-decoration: none;
+    }
+    .foot {
+      margin-top: 40px; font-family: var(--mono); font-size: 11px; color: var(--dim);
+      display: flex; gap: 18px; flex-wrap: wrap;
+    }
+    .foot .ok { color: var(--accent); }
+
+    @media (max-width: 800px) {
+      .grid-3, .split, .steps li, .work li { grid-template-columns: 1fr; }
+      .rail { display: none; }
+      header.hud { gap: 12px; height: 56px; }
+      nav.main { display: none; }
+      .panel { scroll-snap-stop: normal; padding-top: 80px; }
+      .work .tag { display: none; }
+      h1.name em { display: block; margin: 10px 0 0; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scroller { scroll-behavior: auto; }
+      .scroll-hint { animation: none; }
+    }
+  </style>
 </head>
 <body>
-    <div class="sidebar">
-        <img src="33a0b56cee7ccd653ca9b19b46d7b394.jpg" alt="Haoyuan Shen">
-        <div class="contact">
-            <h3>Contact</h3>
-            <p><a href="mailto:haoyuan.shen@outlook.com">haoyuan.shen@outlook.com</a></p>
-            <p>
-                <a href="https://github.com/shenhaoyuan0218">GitHub</a>
-            </p>
-        </div>
-    </div>
-    <div class="main">
-        <div class="about">
-            <p class="label-about">ABOUT ME</p>
-            <h1>Haoyuan Shen</h1>
-            <p class="subtitle">Undergraduate student · Computer Science<br>University of Nottingham Ningbo China</p>
-            <hr>
-        </div>
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="vignette"></div>
+  <div class="scan"></div>
 
-        <div class="section">
-            <h2>Biography</h2>
-            <p>I am a first-year undergraduate student majoring in Computer Science at the University of Nottingham Ningbo China. My intended research interests cover reinforcement learning, embodied intelligence,numerical optimization(also AI for quantitative finance). I am actively seeking research assistant opportunities to build practical research experience in AI and scientific computing.</p>
-        </div>
+  <header class="hud">
+    <a class="mark" href="#intro">hs<span>@unnc</span></a>
+    <div class="hud-status"><i>●</i> sys.ok · cuda + algorithms</div>
+    <nav class="main" id="nav">
+      <a href="#intro">intro</a>
+      <a href="#about">about</a>
+      <a href="#focus">focus</a>
+      <a href="#training">now</a>
+      <a href="#work">work</a>
+      <a href="#log">log</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </header>
+  <div class="rail" id="rail" aria-hidden="true"></div>
 
-        <div class="section">
-            <h2>Education</h2>
-            <p><strong>University of Nottingham Ningbo China</strong></p>
-            <p>Computer Science undergraduate student, Sep. 2026 - Present</p>
-        </div>
+  <div class="scroller" id="scroller">
+    <section class="panel" id="intro">
+      <div class="panel-inner">
+        <div class="idx">00 / intro</div>
+        <h1 class="name"><span class="gn" data-t="Haoyuan Shen">Haoyuan Shen</span><em>沈皓源</em></h1>
+        <p class="role">Year 1 · BSc Computer Science · University of Nottingham Ningbo China</p>
+        <p class="lede">
+          A UNNC student working on <strong>AI infrastructure</strong> and
+          <strong>high-performance computing</strong> — systematically learning
+          <strong>CUDA</strong>, and keeping <strong>algorithm practice</strong> running alongside.
+        </p>
+        <p class="links">
+          <a href="files/Haoyuan_Shen_CV.pdf">Curriculum Vitae</a>
+          <a href="https://github.com/shenhaoyuan0218">GitHub</a>
+          <a href="mailto:scyhs8@nottingham.edu.cn">scyhs8@nottingham.edu.cn</a>
+        </p>
+      </div>
+      <div class="scroll-hint">scroll ↓</div>
+    </section>
 
-        <div class="section">
-            <h2>Skills</h2>
-            <p><strong>Programming:</strong> Python, basic web crawler scripting</p>
-            <p><strong>Mathematics:</strong> Calculus, linear algebra,a bit discrete mathematics</p>
-            <p><strong>Office & Administration:</strong> Microsoft Office, Teams, document archiving, project coordination, data sorting</p>
+    <section class="panel" id="about">
+      <div class="panel-inner">
+        <div class="idx">01 / about</div>
+        <h2>Build things that can be checked.</h2>
+        <div class="prose">
+          <p>
+            I am a first-year Computer Science undergraduate at the University of Nottingham Ningbo China.
+            My focus is AI infrastructure and high-performance computing. I am working through CUDA
+            in a public practice repository, and I keep contest-style algorithm practice running beside the degree.
+          </p>
+          <p>
+            I do not yet have published work. I would rather be judged on small, checkable artifacts:
+            kernels that run, scripts with logs, and notes that record what I got wrong.
+          </p>
         </div>
+      </div>
+    </section>
 
-        <div class="section">
-            <h2>Positions</h2>
-            <p><strong>Organizing Department Staff,The University of Nottingham Ningbo China Communist Youth League Committee</strong></p>
-            <p>Responsible for document archiving, financial & asset management, venue application and cross-department coordination.</p>
+    <section class="panel" id="focus">
+      <div class="panel-inner">
+        <div class="idx">02 / focus</div>
+        <h2>Three threads, one direction.</h2>
+        <div class="grid-3">
+          <article class="tile">
+            <div class="n">01 / infra</div>
+            <h3>AI infrastructure</h3>
+            <p>How models actually run: architecture, memory hierarchy, and the path from a kernel to a training or inference system that can be repeated.</p>
+          </article>
+          <article class="tile">
+            <div class="n">02 / cuda</div>
+            <h3>High-performance computing</h3>
+            <p>Learning CUDA in public, starting from first kernels and the programming model — data movement, threads, and the machine underneath the API.</p>
+          </article>
+          <article class="tile">
+            <div class="n">03 / algorithms</div>
+            <h3>Algorithm practice</h3>
+            <p>Contest-style problem solving kept in parallel with systems work: a way to stay sharp on correctness, complexity, and clean implementation.</p>
+          </article>
         </div>
+      </div>
+    </section>
 
-        <div class="section">
-            <h2>Beyond academics</h2>
-            <p>a devoted fan of FC Bayern Munich</p>
+    <section class="panel" id="training">
+      <div class="panel-inner">
+        <div class="idx">03 / now</div>
+        <h2>What I am learning.</h2>
+        <div class="track">
+          <ul class="steps">
+            <li>
+              <div class="when">now</div>
+              <div><strong>CUDA and systems foundations.</strong> <span>Parallel programming, memory hierarchy, and first kernels — including <code>vector_add</code> and <code>matrix_add_2d</code> — in a public repository, compiled on cloud GPUs.</span></div>
+            </li>
+            <li>
+              <div class="when">in parallel</div>
+              <div><strong>Algorithms.</strong> <span>Regular contest-style practice, kept running alongside the degree and the systems work.</span></div>
+            </li>
+            <li class="later">
+              <div class="when">later</div>
+              <div><strong>Training and inference systems.</strong> <span>The unglamorous path onward: experiment scripting, then the internals of how models are trained and served.</span></div>
+            </li>
+          </ul>
         </div>
-    </div>
+      </div>
+    </section>
+
+    <section class="panel" id="work">
+      <div class="panel-inner">
+        <div class="idx">04 / work</div>
+        <h2>Selected work.</h2>
+        <ul class="work">
+          <li>
+            <h3><a href="https://github.com/shenhaoyuan0218/cuda-kernals_haoyuan_shen">CUDA kernels</a></h3>
+            <span class="tag">CUDA · CMake</span>
+            <p>Practice kernels written while learning CUDA: one-dimensional <code>vector_add</code> and two-dimensional <code>matrix_add_2d</code>, with a CMake build. The repository name is spelled as published.</p>
+          </li>
+          <li>
+            <h3><a href="https://github.com/shenhaoyuan0218/self-learning-in-ai-infra">Learning log</a></h3>
+            <span class="tag">notes · Markdown</span>
+            <p>A public record of questions and reflections from studying AI infrastructure and reinforcement learning in Year 1.</p>
+          </li>
+          <li>
+            <h3><a href="https://github.com/shenhaoyuan0218/unnc-beamer-template">UNNC Beamer templates</a></h3>
+            <span class="tag">LaTeX</span>
+            <p>Two unofficial Beamer themes for UNNC: a thesis-defense style (pdfLaTeX) and a minimalist bilingual style (XeLaTeX), made when no official slide theme was available for coursework.</p>
+          </li>
+          <li>
+            <h3><a href="https://github.com/shenhaoyuan0218/simple-search-engine">Simple text search</a></h3>
+            <span class="tag">Python · TF-IDF</span>
+            <p>A small retrieval engine in the Python standard library: inverted index, TF-IDF vectors, and cosine similarity, treated as a linear-algebra exercise.</p>
+          </li>
+          <li>
+            <h3><a href="https://github.com/shenhaoyuan0218/doc-scanner">Document scanner</a></h3>
+            <span class="tag">OpenCV · NumPy</span>
+            <p>A classical computer-vision prototype: edge detection, contour approximation, four-point perspective correction, and binarization. No neural network is used.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel" id="log">
+      <div class="panel-inner">
+        <div class="idx">05 / log</div>
+        <div class="split">
+          <div>
+            <h2>Education.</h2>
+            <div class="edu">
+              <div class="when-col">2026 —</div>
+              <div>
+                <h3>BSc Computer Science</h3>
+                <div class="org">University of Nottingham Ningbo China · Year 1</div>
+                <p>Coursework runs in parallel with independent systems study and algorithm practice.</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h2>Notes.</h2>
+            <ul class="news">
+              <li>
+                <time datetime="2026-11">2026 / 11</time>
+                <div>Released two unofficial <a href="https://github.com/shenhaoyuan0218/unnc-beamer-template">UNNC Beamer templates</a>.</div>
+              </li>
+              <li>
+                <time datetime="2026-11">2026 / 11</time>
+                <div>Opened a public <a href="https://github.com/shenhaoyuan0218/cuda-kernals_haoyuan_shen">CUDA practice repository</a>.</div>
+              </li>
+              <li>
+                <time datetime="2026-09">2026 / 09</time>
+                <div>Entered the Computer Science programme at UNNC.</div>
+              </li>
+            </ul>
+            <ul class="misc" style="margin-top:28px">
+              <li>I am a supporter of FC Bayern Munich.</li>
+              <li>Technical writing is usually set in LaTeX.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="contact">
+      <div class="panel-inner">
+        <div class="idx">06 / contact</div>
+        <h2>Say hello.</h2>
+        <p style="margin-bottom:22px;color:var(--muted);max-width:28em">The best email is the school address. Code and notes live on GitHub. A PDF curriculum vitae is on this site.</p>
+        <p><a class="contact-mail" href="mailto:scyhs8@nottingham.edu.cn">scyhs8@nottingham.edu.cn</a></p>
+        <p class="links" style="margin-top:22px">
+          <a href="https://github.com/shenhaoyuan0218">github.com/shenhaoyuan0218</a>
+          <a href="files/Haoyuan_Shen_CV.pdf">Curriculum Vitae</a>
+        </p>
+        <div class="foot">
+          <span><span class="ok">●</span> Haoyuan Shen · Ningbo</span>
+          <span>static page · last updated Nov 2026</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+  (function () {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const scroller = document.getElementById('scroller');
+    let currentPanel = 'intro';
+    const panels = [...document.querySelectorAll('.panel')];
+    const nav = document.getElementById('nav');
+    const rail = document.getElementById('rail');
+
+    panels.forEach((p, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.title = p.id;
+      b.addEventListener('click', () => p.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }));
+      rail.appendChild(b);
+    });
+    const dots = [...rail.querySelectorAll('button')];
+
+    const setOn = (id) => {
+      currentPanel = id;
+      document.body.dataset.panel = id;
+      nav.querySelectorAll('a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + id));
+      panels.forEach((p, i) => dots[i].classList.toggle('on', p.id === id));
+      const cur = document.getElementById(id); if (cur) cur.classList.add('in');
+    };
+    setOn('intro');
+
+    const io = new IntersectionObserver((entries) => {
+      const vis = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (vis) setOn(vis.target.id);
+    }, { root: scroller, threshold: [0.45, 0.6] });
+    panels.forEach(p => io.observe(p));
+
+    nav.addEventListener('click', (e) => {
+      const a = e.target.closest('a');
+      if (!a || !a.hash) return;
+      const t = document.querySelector(a.hash);
+      if (!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    });
+
+    document.querySelector('.mark').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('intro').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    });
+
+    const go = (dir) => {
+      const mid = scroller.scrollTop + scroller.clientHeight * 0.5;
+      let i = panels.findIndex(p => p.offsetTop + p.offsetHeight > mid);
+      if (i < 0) i = 0;
+      const n = Math.max(0, Math.min(panels.length - 1, i + dir));
+      panels[n].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    };
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT','TEXTAREA'].includes((e.target.tagName || ''))) return;
+      if (['ArrowDown','PageDown','j','J',' '].includes(e.key)) { e.preventDefault(); go(1); }
+      if (['ArrowUp','PageUp','k','K'].includes(e.key)) { e.preventDefault(); go(-1); }
+      if (e.key === 'Home') { e.preventDefault(); panels[0].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
+      if (e.key === 'End') { e.preventDefault(); panels.at(-1).scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
+    });
+
+    function jumpTo(id) {
+      const t = document.getElementById(id);
+      if (!t) return;
+      scroller.scrollTo({ top: t.offsetTop, behavior: 'auto' });
+      setOn(id);
+    }
+    window.jumpTo = jumpTo;
+    const boot = new URLSearchParams(location.search).get('p') || (location.hash || '').replace('#','');
+    if (boot) jumpTo(boot);
+
+    const cvs = document.getElementById('bg');
+    const ctx = cvs.getContext('2d');
+    let w, h, dpr, mx = 0.5, my = 0.5, tx = 0.5, ty = 0.5;
+    const stars = [];
+    function resize() {
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      w = innerWidth; h = innerHeight;
+      cvs.width = Math.floor(w * dpr);
+      cvs.height = Math.floor(h * dpr);
+      cvs.style.width = w + 'px';
+      cvs.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      stars.length = 0;
+      const n = Math.floor((w * h) / 14000);
+      for (let i = 0; i < n; i++) {
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          z: 0.2 + Math.random() * 0.8,
+          p: Math.random() * Math.PI * 2
+        });
+      }
+    }
+    window.addEventListener('resize', resize);
+    window.addEventListener('pointermove', (e) => { tx = e.clientX / w; ty = e.clientY / h; });
+    resize();
+
+    const THEMES = {
+      intro:    { mode: 'grid',  horizon: 0.62, strength: 1,    lx: 0.28, rx: 0.72, left: [0,240,255], mid: [47,139,255], right: [255,43,214] },
+      about:    { mode: 'wash',  horizon: 0.92, strength: 0.4,  lx: 0.22, rx: 0.8,  left: [0,220,210], mid: [40,160,200], right: [80,140,180] },
+      focus:    { mode: 'grid',  horizon: 0.82, strength: 0.48, lx: 0.35, rx: 0.7,  left: [0,200,255], mid: [47,139,255], right: [110,150,255] },
+      training: { mode: 'grid',  horizon: 0.84, strength: 0.45, lx: 0.4,  rx: 0.72, left: [90,140,255], mid: [138,92,255], right: [200,90,230] },
+      work:     { mode: 'grid',  horizon: 0.92, strength: 0.32, lx: 0.3,  rx: 0.7,  left: [0,180,255], mid: [47,139,255], right: [138,92,255] },
+      log:      { mode: 'lines', horizon: 0.88, strength: 0.32, lx: 0.45, rx: 0.7,  left: [80,140,255], mid: [138,92,255], right: [180,110,220] },
+      contact:  { mode: 'glow',  horizon: 0.80, strength: 0.5,  lx: 0.38, rx: 0.7,  left: [138,92,255], mid: [210,80,220], right: [255,43,214] }
+    };
+
+    function rgba(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
+
+    const anim = { h: 0.62, s: 0.8 };
+    const NEON = { left: [0,240,255], mid: [47,139,255], right: [255,43,214] };
+    function themeOf() {
+      const id = currentPanel;
+      const targetH = id === 'intro' ? (w < 700 ? 0.74 : 0.62) : id === 'work' ? 0.92 : 0.84;
+      const targetS = id === 'intro' ? 0.8 : 0.4;
+      anim.h += (targetH - anim.h) * 0.06;
+      anim.s += (targetS - anim.s) * 0.06;
+      const horizon = anim.h, strength = anim.s;
+      return { mode: 'grid', horizon, strength, lx: 0.5, rx: 0.5, ...NEON };
+    }
+
+    function drawHorizon(th) {
+      const horizon = h * th.horizon;
+      const g = ctx.createLinearGradient(0, horizon, w, horizon);
+      g.addColorStop(0, rgba(th.left, 0));
+      g.addColorStop(0.15, rgba(th.left, 0.7 * th.strength));
+      g.addColorStop(0.5, rgba(th.mid, 0.55 * th.strength));
+      g.addColorStop(0.85, rgba(th.right, 0.7 * th.strength));
+      g.addColorStop(1, rgba(th.right, 0));
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = g;
+      ctx.fillRect(0, horizon - 1, w, 2);
+      const bloomL = ctx.createRadialGradient(w * th.lx, horizon, 0, w * th.lx, horizon, w * 0.34);
+      bloomL.addColorStop(0, rgba(th.mid, 0.1 * th.strength));
+      bloomL.addColorStop(1, rgba(th.left, 0));
+      const bloomR = ctx.createRadialGradient(w * th.rx, horizon, 0, w * th.rx, horizon, w * 0.34);
+      bloomR.addColorStop(0, rgba(th.mid, 0.0));
+      bloomR.addColorStop(1, rgba(th.right, 0));
+      ctx.fillStyle = bloomL;
+      ctx.fillRect(0, horizon - 28, w, 70);
+      ctx.fillStyle = bloomR;
+      ctx.fillRect(0, horizon - 28, w, 70);
+      if (!reduce) {
+        const sx = ((performance.now() * 0.00012) % 1.4 - 0.2) * w;
+        const sg = ctx.createRadialGradient(sx, horizon, 0, sx, horizon, 120);
+        sg.addColorStop(0, rgba([180,250,255], 0.55 * th.strength));
+        sg.addColorStop(1, rgba([180,250,255], 0));
+        ctx.fillStyle = sg;
+        ctx.fillRect(sx - 120, horizon - 2, 240, 4);
+      }
+    }
+
+    function drawGrid(t, th) {
+      const horizon = h * th.horizon;
+      const vanishX = w * (0.5 + (mx - 0.5) * 0.08);
+      const vanishY = horizon + (my - 0.5) * 8;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, horizon, w, h - horizon);
+      ctx.clip();
+      const rowGrad = ctx.createLinearGradient(0, 0, w, 0);
+      rowGrad.addColorStop(0, rgba(th.left, 0.9));
+      rowGrad.addColorStop(0.5, rgba(th.mid, 0.85));
+      rowGrad.addColorStop(1, rgba(th.right, 0.9));
+      ctx.strokeStyle = rowGrad;
+      ctx.lineWidth = 1;
+      const rows = currentPanel === 'intro' ? 22 : 16;
+      const phase = reduce ? 0 : (t * 0.00018) % 1;
+      for (let i = 0; i <= rows; i++) {
+        const u = (i + phase) / rows;
+        const y = horizon + Math.pow(u, 1.7) * (h - horizon + 80);
+        const pulse = reduce ? 1 : 0.6 + 0.4 * Math.sin(t * 0.0007 + i * 0.4);
+        ctx.globalAlpha = (0.16 + 0.5 * (1 - u) * pulse) * th.strength;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+      const cols = 16;
+      for (let i = -cols; i <= cols; i++) {
+        const spread = w * 1.6;
+        const x0 = vanishX + (i / cols) * spread;
+        const tcol = (i + cols) / (cols * 2);
+        const col = tcol < 0.5 ? th.left : (tcol < 0.75 ? th.mid : th.right);
+        const colGrad = ctx.createLinearGradient(vanishX, vanishY, x0, h + 40);
+        colGrad.addColorStop(0, rgba(th.mid, 0.3));
+        colGrad.addColorStop(1, rgba(col, 0.85));
+        ctx.strokeStyle = colGrad;
+        ctx.globalAlpha = (0.16 + 0.22 * (1 - Math.abs(i) / cols)) * th.strength;
+        ctx.beginPath();
+        ctx.moveTo(vanishX, vanishY);
+        ctx.lineTo(x0, h + 40);
+        ctx.stroke();
+      }
+      ctx.restore();
+      drawHorizon(th);
+    }
+
+    function drawWash(th) {
+      const wash = ctx.createRadialGradient(w * 0.18, h * 0.42, 0, w * 0.18, h * 0.42, h * 0.7);
+      wash.addColorStop(0, rgba(th.left, 0.16));
+      wash.addColorStop(1, rgba(th.left, 0));
+      ctx.fillStyle = wash;
+      ctx.fillRect(0, 0, w, h);
+      drawHorizon(th);
+    }
+
+    function drawLines(t, th) {
+      const base = h * 0.28;
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 7; i++) {
+        const y = base + i * (h * 0.1);
+        const g = ctx.createLinearGradient(0, y, w, y);
+        g.addColorStop(0, rgba(th.left, 0));
+        g.addColorStop(0.2, rgba(th.mid, 0.18 * th.strength));
+        g.addColorStop(0.8, rgba(th.right, 0.16 * th.strength));
+        g.addColorStop(1, rgba(th.right, 0));
+        ctx.strokeStyle = g;
+        ctx.globalAlpha = 0.7;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      drawHorizon(th);
+    }
+
+    function drawGlow(th) {
+      const wash = ctx.createRadialGradient(w * 0.72, h * 0.7, 0, w * 0.72, h * 0.7, h * 0.75);
+      wash.addColorStop(0, rgba(th.right, 0.16));
+      wash.addColorStop(1, rgba(th.right, 0));
+      ctx.fillStyle = wash;
+      ctx.fillRect(0, 0, w, h);
+      drawHorizon(th);
+    }
+
+    function frame(t) {
+      mx += (tx - mx) * 0.04;
+      my += (ty - my) * 0.04;
+      const th = themeOf();
+      ctx.fillStyle = '#06090d';
+      ctx.fillRect(0, 0, w, h);
+      const glow = ctx.createRadialGradient(w * 0.5, h * 0.42, 0, w * 0.5, h * 0.5, h * 0.7);
+      glow.addColorStop(0, 'rgba(18,40,48,0.9)');
+      glow.addColorStop(1, 'rgba(6,9,13,0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, w, h);
+
+      for (const s of stars) {
+        const o = 0.15 + s.z * 0.55 + Math.sin(t * 0.002 + s.p) * 0.15;
+        ctx.globalAlpha = Math.max(0, o);
+        ctx.fillStyle = s.z > 0.7 ? '#7eead4' : '#cfe8ee';
+        const px = s.x + (mx - 0.5) * 16 * s.z;
+        const py = s.y + (my - 0.5) * 10 * s.z;
+        ctx.fillRect(px, py, s.z > 0.75 ? 2 : 1, s.z > 0.75 ? 2 : 1);
+      }
+      ctx.globalAlpha = 1;
+      const tick = reduce ? 0 : t;
+      if (th.mode === 'grid') drawGrid(tick, th);
+      else if (th.mode === 'lines') drawLines(tick, th);
+      else if (th.mode === 'glow') drawGlow(th);
+      else drawWash(th);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+  </script>
 </body>
 </html>
